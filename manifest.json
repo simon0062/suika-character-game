@@ -1,0 +1,22 @@
+{
+    "name": "合成大歌姬",
+    "short_name": "大歌姬",
+    "description": "合成大歌姬 - Teto × Miku",
+    "start_url": ".",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#0c0c14",
+    "theme_color": "#1a0c14",
+    "icons": [
+        {
+            "src": "img/avatars/teto.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "img/avatars/miku.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ]
+}

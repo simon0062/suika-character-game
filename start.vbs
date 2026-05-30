@@ -1,0 +1,1 @@
+CreateObject("Wscript.Shell").Run "cmd /c cd /d """ & CreateObject("Scripting.FileSystemObject").GetParentFolderName(WScript.ScriptFullName) & """ && start """" http://localhost:8080 && python -m http.server 8080", 1, True
