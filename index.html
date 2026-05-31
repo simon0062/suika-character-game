@@ -187,11 +187,33 @@
         #restart-btn:active{transform:scale(0.95)}
 
         /* 手机：隐藏立绘 */
+        /* 音乐切换按钮（桌面隐藏，手机显示） */
+        #music-toggle-btn{
+            display:none;
+            position:absolute;
+            top:38px;right:8px;
+            z-index:30;
+            background:rgba(255,255,255,0.9);
+            border:1px solid rgba(224,43,61,0.2);
+            border-radius:14px;
+            padding:3px 8px;
+            font-size:13px;
+            cursor:pointer;
+            color:#E02B3D;
+        }
         @media(max-width:800px){
             #app-container{grid-template-columns:1fr}
             #illustration-panel{display:none}
-            #music-panel{display:none}
             #game-container{width:100%;border:none}
+            #music-toggle-btn{display:block}
+            #music-panel{
+                display:none;
+                position:fixed;
+                top:0;left:0;right:0;bottom:0;
+                z-index:200;
+                background:rgba(255,255,255,0.97);
+            }
+            #music-panel.show{display:flex}
         }
     </style>
 </head>
@@ -210,6 +232,7 @@
                     <div id="top-spacer"></div>
                 </div>
                 <canvas id="game-canvas"></canvas>
+                <button id="music-toggle-btn" onclick="document.getElementById('music-panel').classList.toggle('show');this.textContent=document.getElementById('music-panel').classList.contains('show')?'✕':'🎵'">🎵</button>
                 <div id="watermark">B站：时风瞬K</div>
                 <div id="bottom-bar">
                     <div id="score-display">分数 <span id="score">0</span></div>
