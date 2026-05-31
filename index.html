@@ -201,6 +201,7 @@
             cursor:pointer;
             color:#E02B3D;
         }
+        #music-close-btn{display:none}
         @media(max-width:800px){
             #app-container{grid-template-columns:1fr}
             #illustration-panel{display:none}
@@ -214,6 +215,17 @@
                 background:rgba(255,255,255,0.97);
             }
             #music-panel.show{display:flex}
+            #music-close-btn{
+                display:block;
+                position:absolute;
+                top:8px;right:12px;
+                z-index:210;
+                background:none;
+                border:none;
+                font-size:22px;
+                cursor:pointer;
+                color:#E02B3D;
+            }
         }
     </style>
 </head>

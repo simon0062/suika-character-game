@@ -156,7 +156,8 @@ const MusicPlayer = {
             panel._bound = true;
         }
 
-        let html = '<div id="music-header">🎵 音乐</div>';
+        let html = '<button id="music-close-btn" onclick="var p=document.getElementById(\'music-panel\');p.classList.remove(\'show\');var b=document.getElementById(\'music-toggle-btn\');if(b)b.textContent=\'🎵\'">✕</button>';
+        html += '<div id="music-header">🎵 音乐</div>';
         html += '<div id="music-list">';
 
         let hasUnlocked = false;
