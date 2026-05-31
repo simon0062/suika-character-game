@@ -43,6 +43,8 @@ const Renderer = {
 
         this.canvas.width = gameW;
         this.canvas.height = gameH;
+        // 根据画布高度缩放水果
+        scaleFruits(gameH);
     },
 
     /**
@@ -107,7 +109,7 @@ const Renderer = {
      */
     drawWarningLine(w) {
         const ctx = this.ctx;
-        const y = 75;
+        const y = Math.round(this.canvas.height * 0.1);
 
         ctx.save();
         ctx.setLineDash([6, 10]);
@@ -203,7 +205,7 @@ const Renderer = {
         const fruit = FRUITS[preview.level];
         const r = fruit.radius;
         const x = preview.x;
-        const y = 55;
+        const y = Math.round(this.canvas.height * 0.08);
 
         ctx.save();
         ctx.globalAlpha = 0.7;

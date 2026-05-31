@@ -239,7 +239,7 @@ const Game = {
 
     // ===== 水果掉落 =====
     dropFruit(x, level) {
-        const body = Physics.createFruitBody(x, 50, level);
+        const body = Physics.createFruitBody(x, Math.round(Physics.gameHeight * 0.07), level);
         Matter.Composite.add(Physics.world, body);
         this.fruits.push({ body, level });
         this.checkMaxLevel();
@@ -340,7 +340,7 @@ const Game = {
         // 掉落保护：刚掉落的球有 300ms 缓冲
         if (timestamp - this.lastDropTime < 1000) return;
 
-        const warningY = 75;
+        const warningY = Math.round(Physics.gameHeight * 0.1);
         for (const f of this.fruits) {
             if (!f.body || f.body.isRemoved) continue;
             const topY = f.body.position.y - FRUITS[f.level].radius;

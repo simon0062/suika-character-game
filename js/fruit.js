@@ -1,5 +1,15 @@
 // js/fruit.js — 水果等级数据定义（11级）
 
+// 水果基础半径（以 700px 高度为基准）
+const BASE_RADII = [28, 36, 45, 55, 65, 76, 88, 100, 113, 128, 150];
+
+function scaleFruits(gameHeight) {
+    const scale = Math.min(1, gameHeight / 700);
+    FRUITS.forEach((f, i) => {
+        f.radius = Math.round(BASE_RADII[i] * scale);
+    });
+}
+
 const FRUITS = [
     { level: 0,  name: 'cayunxunyin', radius: 28,  img: 'img/avatars/cayunxunyin.png', lihui: 'img/lihui/cayunxunyin.png', score: 1,  music: 'chayunxunyin' },
     { level: 1,  name: 'sion',        radius: 36,  img: 'img/avatars/sion.png',        lihui: 'img/lihui/sion.png',        score: 2,  music: 'sion' },
