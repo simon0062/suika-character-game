@@ -10,11 +10,16 @@ const MusicPlayer = {
     isPlaying: false,
     dataReady: false,
     pendingUnlocks: [],
-    touchStartY: 0,       // 区分滚动和点击
+    touchStartY: 0,
+    albumArtImages: [],    // 专辑图列表
+    currentArt: '',        // 当前显示的专辑图
 
     init() {
         this.audio = new Audio();
         this.audio.volume = 0.5;
+
+        // 加载专辑图列表
+        this.loadAlbumArt();
 
         // 先渲染空状态
         this.renderPanel();
@@ -45,6 +50,23 @@ const MusicPlayer = {
         this.audio.addEventListener('timeupdate', () => this.updateProgress());
         this.audio.addEventListener('play', () => this.isPlaying = true);
         this.audio.addEventListener('pause', () => this.isPlaying = false);
+    },
+
+    loadAlbumArt() {
+        // 预定义的专辑图列表
+        const exts = ['jpg','jpeg','png','webp'];
+        const count = 20;
+        for (let i = 1; i <= count; i++) {
+            for (const ext of exts) {
+                this.albumArtImages.push(`img/albumart/${i}.${ext}`);
+            }
+        }
+    },
+
+    pickRandomArt() {
+        if (this.albumArtImages.length === 0) return '';
+        const idx = Math.floor(Math.random() * this.albumArtImages.length);
+        return this.albumArtImages[idx];
     },
 
     // ===== 解锁 =====
@@ -100,6 +122,7 @@ const MusicPlayer = {
         this.audio.src = song.file;
         this.audio.play().catch(() => {});
         this.playlistIndex = this.playlist.findIndex(s => s.file === song.file);
+        this.currentArt = this.pickRandomArt();
         this.renderPanel();
     },
 
@@ -164,6 +187,12 @@ const MusicPlayer = {
 
         let html = '<button id="music-close-btn" data-action="close-panel">✕</button>';
         html += '<div id="music-header">🎵 音乐</div>';
+
+        // 专辑图
+        if (this.currentArt) {
+            html += `<div id="music-album-art"><img src="${this.currentArt}" onerror="this.style.display='none'" alt=""></div>`;
+        }
+
         html += '<div id="music-list">';
 
         let hasUnlocked = false;
