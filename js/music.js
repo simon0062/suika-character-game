@@ -3,13 +3,14 @@
 const MusicPlayer = {
     audio: null,
     songData: {},
-    unlocked: {},        // { charName: true }
-    currentSong: null,   // { char, title, file }
-    playlist: [],        // all currently playable songs
+    unlocked: {},
+    currentSong: null,
+    playlist: [],
     playlistIndex: -1,
     isPlaying: false,
     dataReady: false,
-    pendingUnlocks: [],  // 数据加载前的待解锁队列
+    pendingUnlocks: [],
+    touchStartY: 0,       // 区分滚动和点击
 
     init() {
         this.audio = new Audio();
@@ -71,11 +72,7 @@ const MusicPlayer = {
         this.unlocked[char] = true;
         this.rebuildPlaylist();
         this.renderPanel();
-
-        // 自动播放该角色的第一首歌
-        if (!this.currentSong) {
-            this.playCharFirst(char);
-        }
+        // 不再自动播放，避免中断正在播放的歌
     },
 
     isUnlocked(level) {
@@ -146,15 +143,24 @@ const MusicPlayer = {
         const panel = document.getElementById('music-panel');
         if (!panel) return;
 
-        // 事件委托：同时绑定 click 和 touchend
+        // 事件委托：点击 + 触摸（区分滑动）
         if (!panel._bound) {
             panel.addEventListener('click', e => this.handleClick(e));
+            panel.addEventListener('touchstart', e => {
+                this.touchStartY = e.touches[0].clientY;
+            }, { passive: true });
             panel.addEventListener('touchend', e => {
+                const dy = Math.abs((e.changedTouches[0] || {}).clientY - this.touchStartY);
+                if (dy > 10) return; // 滑动中，忽略
                 e.preventDefault();
                 this.handleClick(e);
             }, { passive: false });
             panel._bound = true;
         }
+
+        // 保存音乐列表滚动位置
+        const listEl = document.getElementById('music-list');
+        const scrollTop = listEl ? listEl.scrollTop : 0;
 
         let html = '<button id="music-close-btn" data-action="close-panel">✕</button>';
         html += '<div id="music-header">🎵 音乐</div>';
@@ -217,6 +223,12 @@ const MusicPlayer = {
         html += '</div>'; // player-bar
 
         panel.innerHTML = html;
+
+        // 恢复滚动位置
+        const newList = document.getElementById('music-list');
+        if (newList && scrollTop > 0) {
+            newList.scrollTop = scrollTop;
+        }
     },
 
     updateProgress() {
