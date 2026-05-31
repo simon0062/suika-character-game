@@ -53,20 +53,23 @@ const MusicPlayer = {
     },
 
     loadAlbumArt() {
-        // 预定义的专辑图列表
-        const exts = ['jpg','jpeg','png','webp'];
-        const count = 20;
-        for (let i = 1; i <= count; i++) {
-            for (const ext of exts) {
-                this.albumArtImages.push(`img/albumart/${i}.${ext}`);
-            }
-        }
+        this.albumArtImages = [
+            'img/albumart/1.jpg','img/albumart/10.webp','img/albumart/11.png',
+            'img/albumart/12.jpg','img/albumart/13.png','img/albumart/14.png',
+            'img/albumart/15.png','img/albumart/16.png','img/albumart/17.png',
+            'img/albumart/18.png','img/albumart/19.png','img/albumart/2.jpg',
+            'img/albumart/20.png','img/albumart/3.webp','img/albumart/4.jpg',
+            'img/albumart/5.jpeg','img/albumart/6.jpeg','img/albumart/7.png',
+            'img/albumart/8.jpeg','img/albumart/9.jpeg'
+        ];
     },
 
     pickRandomArt() {
         if (this.albumArtImages.length === 0) return '';
-        const idx = Math.floor(Math.random() * this.albumArtImages.length);
-        return this.albumArtImages[idx];
+        // 避免连续两次同一张图
+        const others = this.albumArtImages.filter(f => f !== this.currentArt);
+        const pool = others.length > 0 ? others : this.albumArtImages;
+        return pool[Math.floor(Math.random() * pool.length)];
     },
 
     // ===== 解锁 =====
