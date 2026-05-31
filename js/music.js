@@ -146,9 +146,13 @@ const MusicPlayer = {
         const panel = document.getElementById('music-panel');
         if (!panel) return;
 
-        // 事件委托：整个面板只绑定一次
+        // 事件委托：同时绑定 click 和 touchend
         if (!panel._bound) {
             panel.addEventListener('click', e => this.handleClick(e));
+            panel.addEventListener('touchend', e => {
+                e.preventDefault();
+                this.handleClick(e);
+            }, { passive: false });
             panel._bound = true;
         }
 
