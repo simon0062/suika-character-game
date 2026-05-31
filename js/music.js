@@ -189,7 +189,7 @@ const MusicPlayer = {
         }
 
         if (!hasUnlocked) {
-            html += '<div id="music-empty">合成水果解锁音乐 🎶</div>';
+            html += '<div id="music-empty">合成歌姬解锁音乐 🎶</div>';
         }
 
         html += '</div>'; // music-list
