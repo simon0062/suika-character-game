@@ -156,7 +156,7 @@ const MusicPlayer = {
             panel._bound = true;
         }
 
-        let html = '<button id="music-close-btn" onclick="var p=document.getElementById(\'music-panel\');p.classList.remove(\'show\');var b=document.getElementById(\'music-toggle-btn\');if(b)b.textContent=\'🎵\'">✕</button>';
+        let html = '<button id="music-close-btn" data-action="close-panel">✕</button>';
         html += '<div id="music-header">🎵 音乐</div>';
         html += '<div id="music-list">';
 
@@ -256,6 +256,15 @@ const MusicPlayer = {
 
     // 事件委托处理点击
     handleClick(e) {
+        // 关闭按钮
+        const closeBtn = e.target.closest('#music-close-btn');
+        if (closeBtn) {
+            const panel = document.getElementById('music-panel');
+            panel.classList.remove('show');
+            const toggle = document.getElementById('music-toggle-btn');
+            if (toggle) toggle.textContent = '🎵';
+            return;
+        }
         // 进度条
         const progress = e.target.closest('#music-progress-wrap');
         if (progress) { this.seek(e); return; }
