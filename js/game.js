@@ -164,10 +164,18 @@ const Game = {
         canvas.addEventListener('touchend', e => {
             e.preventDefault();
             this.onPointerUp();
-        });
+        }, { passive: false });
+
+        // canvas 阻止浏览器默认手势
+        canvas.style.touchAction = 'none';
 
         window.addEventListener('resize', () => this.onResize());
         document.getElementById('restart-btn').addEventListener('click', () => this.setupNewGame());
+        document.getElementById('restart-btn').addEventListener('touchend', e => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.setupNewGame();
+        });
         container.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
     },
 
